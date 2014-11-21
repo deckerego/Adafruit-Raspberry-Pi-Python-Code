@@ -18,7 +18,10 @@ class Adafruit_I2C(object):
       with open('/proc/cpuinfo','r') as f:
         for line in f:
           if line.startswith('Revision'):
-            return 1 if line.rstrip()[-1] in ['2','3'] else 2
+            rev_num = int(line.rstrip()[-4:], 16)
+            if rev_num <= 3: return 1
+            elif rev_num > 3 and rev_num < 16: return 2
+            else: return 3
     except:
       return 0
 
